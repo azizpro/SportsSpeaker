@@ -13,8 +13,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener {
 
     private boolean isPlaying = false;
-    MediaPlayer sportPlayer;
-    Toast toast;
+    private MediaPlayer sportPlayer;
+    private Toast toast;
+
     //for components
     private ImageButton imgBoxing, imgKickboxing, imgJudo,
             imgKarate, imgAikido, imgTaekwondo;
