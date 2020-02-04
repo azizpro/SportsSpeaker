@@ -1,19 +1,16 @@
 package com.techleadbd.sportsspeaker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-@SuppressLint("ShowToast")
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener {
 
     private boolean isPlaying = false;
-    private MediaPlayer sportPlayer;
     private Toast toast;
 
     //for components
@@ -77,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         isPlaying = true;
-        sportPlayer = MediaPlayer.create(this, getResources()
+        MediaPlayer sportPlayer = MediaPlayer.create(this, getResources()
                 .getIdentifier(sportName, "raw", getPackageName()));
         sportPlayer.setOnCompletionListener(this);
         sportPlayer.start();
