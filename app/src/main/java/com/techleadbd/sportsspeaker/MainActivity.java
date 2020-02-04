@@ -2,13 +2,19 @@ package com.techleadbd.sportsspeaker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener{
+@SuppressLint("ShowToast")
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaPlayer.OnCompletionListener {
 
+    private boolean isPlaying = false;
+    MediaPlayer sportPlayer;
+    Toast toast;
     //for components
     private ImageButton imgBoxing, imgKickboxing, imgJudo,
             imgKarate, imgAikido, imgTaekwondo;
@@ -31,15 +37,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgKarate.setOnClickListener(MainActivity.this);
         imgAikido.setOnClickListener(MainActivity.this);
         imgTaekwondo.setOnClickListener(MainActivity.this);
-
-
-
     }
 
     @Override
     public void onClick(View imageButtonView) {
 
-        switch (imageButtonView.getId()){
+        switch (imageButtonView.getId()) {
             case R.id.imgBoxing:
                 playSportName(imgBoxing.getTag().toString());
                 break;
@@ -63,20 +66,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.imgTaekwondo:
                 playSportName(imgTaekwondo.getTag().toString());
                 break;
-
         }
-
     }
 
-    private void playSportName(String sportName){
-        MediaPlayer sportPlayer = MediaPlayer.create(this,getResources()
-                .getIdentifier(sportName,"raw",getPackageName()));
+    private void playSportName(String sportName) {
+        cancelToast();
+        if (isPlaying) {
+            showToast();
+            return;
+        }
+        isPlaying = true;
+        sportPlayer = MediaPlayer.create(this, getResources()
+                .getIdentifier(sportName, "raw", getPackageName()));
+        sportPlayer.setOnCompletionListener(this);
         sportPlayer.start();
-
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        mp.reset();
+        mp.release();
+        isPlaying = false;
+    }
+
+    private void showToast() {
+        toast = Toast.makeText(this, "Already playing", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    private void cancelToast() {
+        if (toast != null)
+            toast.cancel();
     }
 }
